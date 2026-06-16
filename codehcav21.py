@@ -1,7 +1,7 @@
 import numpy as np
 from mpi4py import MPI
 
-N = 1000
+N = 3500
 TARGET = 5
 NDIM = 12  # ganti angka ini saja kalau mau tambah dimensi lagi
 
@@ -74,15 +74,22 @@ local_min_dist = np.inf
 local_min_i    = -1
 local_min_j    = -1
 
-for i in range(start_i, end_i):
-    for j in range(i + 1, N):
-        diff = data_full[i].astype(float) - data_full[j].astype(float)
-        dist = np.sqrt(np.sum(diff**2))
-        local_entries.append((i, j, dist))
-        if dist < local_min_dist:
-            local_min_dist = dist
+from scipy.spatial.distance import cdist
+
+local_rows = data_full[start_i:end_i].astype(float)
+dist_block = cdist(local_rows, data_full.astype(float))  # hitung semua sekaligus
+
+local_entries = []
+for li, i in enumerate(range(start_i, end_i)):
+    row_dists = dist_block[li, i+1:]
+    js = np.arange(i+1, N)
+    local_entries.extend(zip([i]*len(js), js.tolist(), row_dists.tolist()))
+    if len(row_dists) > 0:
+        min_idx = np.argmin(row_dists)
+        if row_dists[min_idx] < local_min_dist:
+            local_min_dist = float(row_dists[min_idx])
             local_min_i    = i
-            local_min_j    = j
+            local_min_j    = int(js[min_idx])
 
 local_pack = np.array([local_min_dist, local_min_i, local_min_j])
 if rank == 0:
@@ -172,12 +179,21 @@ while num_clusters > TARGET:
         active[merge_j]  = False
         num_clusters    -= 1
 
-    active       = comm.bcast(active,       root=0)
-    cluster_size = comm.bcast(cluster_size, root=0)
-    num_clusters = comm.bcast(num_clusters, root=0)
-    size_i_old   = comm.bcast(size_i_old,   root=0)
-    size_j_old   = comm.bcast(size_j_old,   root=0)
-    size_new     = comm.bcast(size_new,     root=0)
+    bcast_data = comm.bcast({
+        'active': active,
+        'cluster_size': cluster_size,
+        'num_clusters': num_clusters,
+        'size_i_old': size_i_old,
+        'size_j_old': size_j_old,
+        'size_new': size_new
+    } if rank == 0 else None, root=0)
+
+    active       = bcast_data['active']
+    cluster_size = bcast_data['cluster_size']
+    num_clusters = bcast_data['num_clusters']
+    size_i_old   = bcast_data['size_i_old']
+    size_j_old   = bcast_data['size_j_old']
+    size_new     = bcast_data['size_new']
 
     local_c_updates = []
     local_d_updates = []
@@ -215,23 +231,32 @@ while num_clusters > TARGET:
         for c, d in zip(all_c, all_d):
             dist_matrix[merge_i, c] = d
             dist_matrix[c, merge_i] = d
-        dist_matrix[merge_j, :] = np.inf
-        dist_matrix[:, merge_j] = np.inf
-    dist_matrix = comm.bcast(dist_matrix, root=0)
+
+    # Hanya broadcast 1 baris yang berubah (~8KB, bukan 8MB)
+    updated_row = comm.bcast(
+        dist_matrix[merge_i].copy() if rank == 0 else None, root=0
+    )
+    dist_matrix[merge_i]    = updated_row
+    dist_matrix[:, merge_i] = updated_row
+    dist_matrix[merge_j, :] = np.inf   # semua rank set sendiri, tidak perlu bcast
+    dist_matrix[:, merge_j] = np.inf
 
     local_min_d = np.inf
     local_min_i = -1
     local_min_j = -1
-    for i in range(start_i, end_i):
-        if not active[i]:
-            continue
-        for j in range(i + 1, N):
-            if not active[j]:
-                continue
-            if dist_matrix[i, j] < local_min_d:
-                local_min_d = dist_matrix[i, j]
-                local_min_i = i
-                local_min_j = j
+
+    sub = dist_matrix[start_i:end_i, :].copy()
+    sub[:, ~active] = np.inf                        # kolom non-aktif → inf
+    sub[~active[start_i:end_i], :] = np.inf         # baris non-aktif → inf
+    for li, i in enumerate(range(start_i, end_i)):
+        sub[li, :i+1] = np.inf                      # pastikan hanya j > i
+
+    flat_idx = np.argmin(sub)
+    if sub.flat[flat_idx] < np.inf:
+        li_best, j_best = np.unravel_index(flat_idx, sub.shape)
+        local_min_d = float(sub[li_best, j_best])
+        local_min_i = start_i + li_best
+        local_min_j = int(j_best)
 
     local_pack = np.array([local_min_d, local_min_i, local_min_j])
     all_mins   = None
@@ -279,4 +304,4 @@ if rank == 0:
                 f"kursi {kursi_mean:.1f}, layar {layar_mean:.1f}")
             
 #cd "d:/semester 4/PemPar/tugas/projek uts"
-#mpiexec -n 10 "C:\Users\ACER\AppData\Local\Python\pythoncore-3.14-64\python.exe" codehca12.py  
+#mpiexec -n 10 "C:\Users\ACER\AppData\Local\Python\pythoncore-3.14-64\python.exe" codehcav21.py  

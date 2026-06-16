@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Halaman-1" id="h_vHRxVagl6a7ddueMWY">
+    <mxGraphModel dx="934" dy="597" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-3" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-1" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" value="Start" vertex="1">
+          <mxGeometry height="60" width="100" x="120" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-5" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-2" parent="1" style="whiteSpace=wrap;html=1;strokeWidth=2;" value="Inisialisasi Klaster&lt;div&gt;(N Klaster Awal)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-7" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-4" parent="1" style="whiteSpace=wrap;html=1;strokeWidth=2;" value="Hitung Matriks Jarak Awal (N x N Elemen)" vertex="1">
+          <mxGeometry height="60" width="120" x="550" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-9" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-6" parent="1" style="whiteSpace=wrap;html=1;strokeWidth=2;" value="Cari Jarak Minimum Global (Dua Klaster Paling Dekat)" vertex="1">
+          <mxGeometry height="60" width="120" x="550" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-11" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-8" parent="1" style="whiteSpace=wrap;html=1;strokeWidth=2;" value="Merging (Gabungkan Klaster)" vertex="1">
+          <mxGeometry height="60" width="120" x="350" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-15" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-10" parent="1" style="whiteSpace=wrap;html=1;strokeWidth=2;" value="Update Matriks Jarak (Average Linkage)" vertex="1">
+          <mxGeometry height="60" width="120" x="130" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-16" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="2ZdA41gqhG_ijBJNhWs5-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="610" y="395" />
+            </Array>
+            <mxPoint x="620" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-20" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-19" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-14" parent="1" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=2;" value="Apakah Klaster&amp;nbsp;&lt;div&gt;Target sudah Tercapai?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="160" x="110" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Tidak" vertex="1">
+          <mxGeometry height="30" width="60" x="260" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-22" edge="1" parent="1" source="2ZdA41gqhG_ijBJNhWs5-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="2ZdA41gqhG_ijBJNhWs5-21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-19" parent="1" style="whiteSpace=wrap;html=1;strokeWidth=2;" value="Output Klasterisasi (Hasil Akhir)" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-21" parent="1" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;" value="End" vertex="1">
+          <mxGeometry height="80" width="80" x="570" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="2ZdA41gqhG_ijBJNhWs5-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Ya" vertex="1">
+          <mxGeometry height="30" width="60" x="190" y="450" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
